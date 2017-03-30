@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'AlamofireReactiveExtensions'
-    s.version          = '1.0.1'
+    s.version          = '1.0.2'
     s.summary          = 'Extensions that mix ReactiveSwift with Alamofire'
 
     s.description      = <<-DESC
@@ -24,6 +24,6 @@ Pod::Spec.new do |s|
 
     s.source_files = 'AlamofireReactiveExtensions/Classes/**/*'
 
-    s.dependency 'Alamofire'
-    s.dependency 'ReactiveSwift'
+    s.dependency 'Alamofire', '~> 4.0'
+    s.dependency 'ReactiveSwift',  '~> 1.0'
 end
