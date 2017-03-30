@@ -1,29 +1,66 @@
 # AlamofireReactiveExtensions
 
-[![CI Status](http://img.shields.io/travis/gkaimakas/AlamofireReactiveExtensions.svg?style=flat)](https://travis-ci.org/gkaimakas/AlamofireReactiveExtensions)
-[![Version](https://img.shields.io/cocoapods/v/AlamofireReactiveExtensions.svg?style=flat)](http://cocoapods.org/pods/AlamofireReactiveExtensions)
-[![License](https://img.shields.io/cocoapods/l/AlamofireReactiveExtensions.svg?style=flat)](http://cocoapods.org/pods/AlamofireReactiveExtensions)
-[![Platform](https://img.shields.io/cocoapods/p/AlamofireReactiveExtensions.svg?style=flat)](http://cocoapods.org/pods/AlamofireReactiveExtensions)
+Want to use ReactiveSwift with Alamofire? AlamofireReactiveExtensions has you covered. It provides a list of extensions that bridge Alamofire's callbacks with ReactiveSwift's SignalProducers. You can even easily apply ReactiveSwift's operators to your responses, combine multiple requests or execute requests consecutively.'
 
-## Example
+The project currently provides extensions for:
+1. `SessionManager`
+2. `DataRequest`
+3. `DownloadRequest` 
+4. `UploadRequest`
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+For requests `AlamofireReactiveExtensions` provides the following functions:
+1. `request(queue:)`
+2. `request(queue:,responseSerializer)`
+3. `responseData(queue:)`
+4. `responseString(queue:, encoding:)`
+5. `responseJSON(queue:s options:)`
+6. `responsePropertyList(queue:, options:)`
 
-## Requirements
+SessionManager supports the following functions:
+1. `request(_:, method:, parameters:, encoding:, headers:)`
+2. `request(_:)`
+3. `download(_:, method:, parameters:, encoding:, headers:, to)`
+4. `download(_:, to:)`
+5. `download(resumingWith:, to:)`
+6. `upload(_:, to:, method:, headers:)`
+7. `upload(_:, with:)`
+8. `upload(_:, to:, method:, headers: )`
+9. `upload(_:, with:)`
+10. `upload(_:, to:, method:, headers:)`
+11. `stream(withHostName:, port:)`
 
-## Installation
+### Installation
 
-AlamofireReactiveExtensions is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+`AlamofireReactiveExtensions` is available through `CocoaPods`
 
-```ruby
-pod "AlamofireReactiveExtensions"
-```
+````
+pod 'AlamofireReactiveExtensions'
+````
 
-## Author
 
-gkaimakas, gkaimakas@gmail.com
 
-## License
+### Usage
+`ReactiveSwift` extensions are located behind the `reactive` property that is available in `SessionManager`, `DataRequest`, `DownloadRequest`, `UploadRequest`.
 
-AlamofireReactiveExtensions is available under the MIT license. See the LICENSE file for more info.
+You can use `reactive` with a `SessionManager`
+````
+SessionManager.
+.default
+.reactive
+.request("your url goes here")
+.responseString()
+.map{ $0.value }
+.startWithValues { print( $0 ?? "") }
+````
+
+or if you use the shortcuts available in `Alamofire` you can use it immediately on a request:
+````
+Alamofire.request("your url goes here")
+.reactive
+.responseString()
+.map{ $0.value }
+.startWithValyes { print( $0 ?? "" ) }
+````
+
+Each `SignalProducer` returned from `AlamofireReactiveExtensions` cannot fail since the callbacks in `Alamofire` do not return errors. The convertion of the `NoError` response producer to a producer that can fail is left to the user.
+
