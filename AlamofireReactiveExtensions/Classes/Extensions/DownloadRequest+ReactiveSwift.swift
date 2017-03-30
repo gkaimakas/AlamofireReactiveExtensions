@@ -11,7 +11,7 @@ import Foundation
 import ReactiveSwift
 import Result
 
-extension DownloadRequest: ReactiveCompatible {}
+extension DownloadRequest: ReactiveExtensionsProvider {}
 
 public extension Reactive where Base: DownloadRequest {
     /// Creates a `SignalProducer` that sends a value once the request has finished.

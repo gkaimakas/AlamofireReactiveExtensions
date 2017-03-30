@@ -11,7 +11,7 @@ import Foundation
 import ReactiveSwift
 import Result
 
-extension DataRequest: ReactiveCompatible {}
+extension DataRequest: ReactiveExtensionsProvider {}
 
 public extension Reactive where Base: DataRequest {
     

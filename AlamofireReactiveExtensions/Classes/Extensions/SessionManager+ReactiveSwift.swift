@@ -11,7 +11,7 @@ import Foundation
 import ReactiveSwift
 import Result
 
-extension SessionManager: ReactiveCompatible {}
+extension SessionManager: ReactiveExtensionsProvider {}
 
 public extension Reactive where Base: SessionManager {
     
