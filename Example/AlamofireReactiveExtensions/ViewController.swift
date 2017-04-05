@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        Alamofire.request("http://jsonplaceholder.typicode.com/posts/1")
+        let disposable = Alamofire.request("http://jsonplaceholder.typicode.com/posts/1")
             .reactive
             .responseString()
             .map { (response: DataResponse<String>) -> String? in
@@ -28,6 +28,10 @@ class ViewController: UIViewController {
                 self.navigationItem.title = result
                 print(result ?? "")
             }
+        
+        if disposable.isDisposed == false {
+            disposable.dispose()
+        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -23,9 +23,13 @@ public extension Reactive where Base: DataRequest {
     @discardableResult
     public func response(queue: DispatchQueue? = nil) -> SignalProducer<DefaultDataResponse, NoError> {
         return SignalProducer{ (observer, disposable) in
-            self.base.response(queue: queue) { (defaultResponse: DefaultDataResponse) in
+            let response = self.base.response(queue: queue) { (defaultResponse: DefaultDataResponse) in
                 observer.send(value: defaultResponse)
                 observer.sendCompleted()
+            }
+            
+            disposable += {
+                response.cancel()
             }
         }
     }
@@ -42,13 +46,17 @@ public extension Reactive where Base: DataRequest {
         responseSerializer: T) -> SignalProducer<DataResponse<T.SerializedObject>, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.response(queue: queue,
+            let response = self.base.response(queue: queue,
                                responseSerializer: responseSerializer,
                                completionHandler: { (dataResponse: DataResponse<T.SerializedObject>) in
                                 
                                 observer.send(value: dataResponse)
                                 observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -60,11 +68,15 @@ public extension Reactive where Base: DataRequest {
         queue: DispatchQueue? = nil) -> SignalProducer<DataResponse<Data>, NoError> {
             
             return SignalProducer{ (observer, disposable) in
-                self.base.responseData(queue: queue,
+                let response = self.base.responseData(queue: queue,
                                        completionHandler: { (data: DataResponse<Data>) in
                                         observer.send(value: data)
                                         observer.sendCompleted()
                 })
+                
+                disposable += {
+                    response.cancel()
+                }
             }
     }
     
@@ -82,12 +94,16 @@ public extension Reactive where Base: DataRequest {
         encoding: String.Encoding? = nil) -> SignalProducer<DataResponse<String>, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.responseString(queue: queue,
+            let response = self.base.responseString(queue: queue,
                                      encoding: encoding,
                                      completionHandler: { (data: DataResponse<String>) in
                                         observer.send(value: data)
                                         observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -102,12 +118,16 @@ public extension Reactive where Base: DataRequest {
         options: JSONSerialization.ReadingOptions = .allowFragments) -> SignalProducer<DataResponse<Any>, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.responseJSON(queue: queue,
+            let response = self.base.responseJSON(queue: queue,
                                    options: options,
                                    completionHandler: { (data: DataResponse<Any>) in
                                     observer.send(value: data)
                                     observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -123,13 +143,17 @@ public extension Reactive where Base: DataRequest {
         options: PropertyListSerialization.ReadOptions = []) -> SignalProducer<DataResponse<Any>, NoError> {
         
         return SignalProducer { (observer, disposable) in
-            self.base.responsePropertyList(queue: queue,
+            let response = self.base.responsePropertyList(queue: queue,
                                            options: options,
                                            completionHandler: { (data: DataResponse<Any>) in
                                             
                                             observer.send(value: data)
                                             observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
 }

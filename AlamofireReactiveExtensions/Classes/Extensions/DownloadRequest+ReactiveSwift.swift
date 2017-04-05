@@ -24,12 +24,16 @@ public extension Reactive where Base: DownloadRequest {
         queue: DispatchQueue? = nil) -> SignalProducer<DefaultDownloadResponse, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.response(queue: queue,
+            let response = self.base.response(queue: queue,
                                completionHandler: { (downloadResponse: DefaultDownloadResponse) in
                                 
                                 observer.send(value: downloadResponse)
                                 observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -47,13 +51,17 @@ public extension Reactive where Base: DownloadRequest {
         
         return SignalProducer { (observer, disposable) in
             
-            self.base.response(queue: queue,
+            let response = self.base.response(queue: queue,
                       responseSerializer: responseSerializer,
                       completionHandler: { (res: DownloadResponse<T.SerializedObject>) in
                         
                         observer.send(value: res)
                         observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -65,12 +73,16 @@ public extension Reactive where Base: DownloadRequest {
         queue: DispatchQueue? = nil) -> SignalProducer<DownloadResponse<Data>, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.responseData(queue: queue,
+            let response = self.base.responseData(queue: queue,
                                    completionHandler: { (downloadResponse: DownloadResponse<Data>) in
                                     
                                     observer.send(value: downloadResponse)
                                     observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -87,13 +99,17 @@ public extension Reactive where Base: DownloadRequest {
         encoding: String.Encoding? = nil) -> SignalProducer<DownloadResponse<String>, NoError> {
         
         return SignalProducer { (observer, disposable) in
-            self.base.responseString(queue: queue,
+            let response = self.base.responseString(queue: queue,
                                      encoding: encoding,
                                      completionHandler: { (downloadResponse: DownloadResponse<String>) in
                                         
                                         observer.send(value: downloadResponse)
                                         observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
     
@@ -108,13 +124,17 @@ public extension Reactive where Base: DownloadRequest {
         options: JSONSerialization.ReadingOptions = .allowFragments) -> SignalProducer<DownloadResponse<Any>, NoError> {
             
             return SignalProducer{ (observer, disposable) in
-                self.base.responseJSON(queue: queue,
+                let response = self.base.responseJSON(queue: queue,
                                        options: options,
                                        completionHandler: { (downloadResponse: DownloadResponse<Any>) in
                                         
                                         observer.send(value: downloadResponse)
                                         observer.sendCompleted()
                 })
+                
+                disposable += {
+                    response.cancel()
+                }
             }
     }
     
@@ -129,13 +149,17 @@ public extension Reactive where Base: DownloadRequest {
         options: PropertyListSerialization.ReadOptions = []) -> SignalProducer<DownloadResponse<Any>, NoError> {
         
         return SignalProducer{ (observer, disposable) in
-            self.base.responsePropertyList(queue: queue,
+            let response = self.base.responsePropertyList(queue: queue,
                                            options: options,
                                            completionHandler: { (downloadResponse: DownloadResponse<Any>) in
                                             
                                             observer.send(value: downloadResponse)
                                             observer.sendCompleted()
             })
+            
+            disposable += {
+                response.cancel()
+            }
         }
     }
 }
