@@ -27,10 +27,10 @@ public extension Reactive where Base: DataRequest {
                 observer.send(value: defaultResponse)
                 observer.sendCompleted()
             }
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -53,10 +53,10 @@ public extension Reactive where Base: DataRequest {
                                 observer.send(value: dataResponse)
                                 observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -73,10 +73,10 @@ public extension Reactive where Base: DataRequest {
                                         observer.send(value: data)
                                         observer.sendCompleted()
                 })
-                
-                disposable += {
-                    response.cancel()
-                }
+
+				disposable.observeEnded {
+					response.cancel()
+				}
             }
     }
     
@@ -100,10 +100,10 @@ public extension Reactive where Base: DataRequest {
                                         observer.send(value: data)
                                         observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -124,10 +124,10 @@ public extension Reactive where Base: DataRequest {
                                     observer.send(value: data)
                                     observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -150,10 +150,10 @@ public extension Reactive where Base: DataRequest {
                                             observer.send(value: data)
                                             observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
 }

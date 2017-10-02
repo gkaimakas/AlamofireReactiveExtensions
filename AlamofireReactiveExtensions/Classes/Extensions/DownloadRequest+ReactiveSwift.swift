@@ -30,10 +30,10 @@ public extension Reactive where Base: DownloadRequest {
                                 observer.send(value: downloadResponse)
                                 observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -58,10 +58,10 @@ public extension Reactive where Base: DownloadRequest {
                         observer.send(value: res)
                         observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -79,10 +79,10 @@ public extension Reactive where Base: DownloadRequest {
                                     observer.send(value: downloadResponse)
                                     observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -106,10 +106,10 @@ public extension Reactive where Base: DownloadRequest {
                                         observer.send(value: downloadResponse)
                                         observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
     
@@ -131,10 +131,10 @@ public extension Reactive where Base: DownloadRequest {
                                         observer.send(value: downloadResponse)
                                         observer.sendCompleted()
                 })
-                
-                disposable += {
-                    response.cancel()
-                }
+
+				disposable.observeEnded {
+					response.cancel()
+				}
             }
     }
     
@@ -156,10 +156,10 @@ public extension Reactive where Base: DownloadRequest {
                                             observer.send(value: downloadResponse)
                                             observer.sendCompleted()
             })
-            
-            disposable += {
-                response.cancel()
-            }
+
+			disposable.observeEnded {
+				response.cancel()
+			}
         }
     }
 }
